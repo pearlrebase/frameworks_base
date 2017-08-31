@@ -103,6 +103,7 @@ interface IStatusBarService
 
     /**
      * Custom utils
+     * Pearl
      */
     void toggleCameraFlash();
 }
