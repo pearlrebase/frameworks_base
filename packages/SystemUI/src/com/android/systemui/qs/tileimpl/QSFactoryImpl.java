@@ -44,6 +44,7 @@ import com.android.systemui.qs.tiles.HeadsUpTile;
 import com.android.systemui.qs.tiles.HotspotTile;
 import com.android.systemui.qs.tiles.HWKeysTile;
 import com.android.systemui.qs.tiles.IntentTile;
+import com.android.systemui.qs.tiles.LiveDisplayTile;
 import com.android.systemui.qs.tiles.LocationTile;
 import com.android.systemui.qs.tiles.LteTile;
 import com.android.systemui.qs.tiles.NavBarTile;
@@ -174,6 +175,8 @@ public class QSFactoryImpl implements QSFactory {
                 return new PieTile(mHost);
             case "navbar":
                 return new NavBarTile(mHost);
+            case "livedisplay":
+                return new LiveDisplayTile(mHost);
         }
 
         // Intent tiles.

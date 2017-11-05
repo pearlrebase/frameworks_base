@@ -230,6 +230,8 @@
     <!-- screenrecord -->
     <uses-permission android:name="android.permission.ACCESS_SURFACE_FLINGER" />
 
+    <!-- Live Display Tile -->
+    <uses-permission android:name="lineageos.permission.MANAGE_LIVEDISPLAY" />
     <!-- Sync tile -->
     <uses-permission android:name="android.permission.READ_SYNC_SETTINGS" />
     <uses-permission android:name="android.permission.WRITE_SYNC_SETTINGS" />
