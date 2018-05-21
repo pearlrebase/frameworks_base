@@ -18,8 +18,11 @@
  -->
 
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
-    <!-- Height of the status bar header bar -->
-    <dimen name="status_bar_header_height">130dp</dimen>
+    <!-- Sets a custom extra padding for the QS icons and statusbar date -->
+    <dimen name="qs_items_padding">8dp</dimen>
+	
+	<!-- The width/height of the charging indicator view on keyguard. -->
+    <dimen name="keyguard_charging_indication_height">48dp</dimen>
+    <dimen name="keyguard_charging_indication_width">24dp</dimen>
 
-    <dimen name="screenrecord_hint_size">48dp</dimen>
 </resources>
