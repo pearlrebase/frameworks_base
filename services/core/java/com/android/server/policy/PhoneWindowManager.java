@@ -7427,7 +7427,7 @@ public class PhoneWindowManager implements WindowManagerPolicy {
 
         synchronized (mLock) {
             int sensorRotation = mOrientationListener.getProposedRotation(); // may be -1
-            if (sensorRotation < 0) {
+            if (sensorRotation < 0 || sensorRotation > 3) {
                 sensorRotation = lastRotation;
             }
 
