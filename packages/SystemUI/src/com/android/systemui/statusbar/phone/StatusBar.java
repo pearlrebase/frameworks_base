@@ -4994,12 +4994,7 @@ public class StatusBar extends SystemUI implements DemoMode,
                 setQsRowsColumns();
                 update();
             }
-            if (uri.equals(Settings.System.getUriFor(
-                    Settings.System.HEADS_UP_STOPLIST_VALUES))) {
-                final String stopString = Settings.System.getString(mContext.getContentResolver(),
-                        Settings.System.HEADS_UP_STOPLIST_VALUES);
-                splitAndAddToArrayList(mStoplist, stopString, "\\|");
-            } else if (uri.equals(Settings.System.getUriFor(
+            else if (uri.equals(Settings.System.getUriFor(
                     Settings.System.ACCENT_PICKER))) {
                 // Unload the accents and update the accent only when the user asks.
                 // Keeps us from overloading the system by performing these tasks every time.
@@ -5012,8 +5007,7 @@ public class StatusBar extends SystemUI implements DemoMode,
          public void update() {
             setLockscreenDoubleTapToSleep();
             setQsRowsColumns();
-            setStatusDoubleTapToSleep();
-	    updateTheme();
+	        updateTheme();
         }
     }
 
