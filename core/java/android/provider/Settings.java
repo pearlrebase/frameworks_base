@@ -1,3 +1,4 @@
+
 /*
  * Copyright (C) 2006 The Android Open Source Project
  *
@@ -4450,6 +4451,16 @@ public final class Settings {
          */
         public static final String SYSTEM_THEME_STYLE = "system_theme_style";
 
+	/**
+         * Whether to change the transparency of the qs panel
+         * @hide
+         */
+        public static final String OMNI_QS_PANEL_BG_ALPHA = "qs_panel_bg_alpha";
+
+        /** @hide */
+        private static final Validator OMNI_QS_PANEL_BG_ALPHA_VALIDATOR = new
+                SettingsValidators.InclusiveIntegerRangeValidator(100, 255);
+
         /**
          * some devices have a extra hw button e.g. n3 on the back on the
          * fingerprint sensor. allow mapping button to key
@@ -4519,15 +4530,6 @@ public final class Settings {
         /** @hide */
         public static final Validator RECENTS_COMPONENT_VALIDATOR =
                 new SettingsValidators.InclusiveIntegerRangeValidator(0, 1);
-
-       	/**
-         * Whether to change the transparency of the qs panel
-         * @hide
-         */
-        public static final String OMNI_QS_PANEL_BG_ALPHA = "qs_panel_bg_alpha";
-         /** @hide */
-        private static final Validator OMNI_QS_PANEL_BG_ALPHA_VALIDATOR =
-                ANY_INTEGER_VALIDATOR;
 
         /**
          * Whether to display cross sign for a data disabled connection
