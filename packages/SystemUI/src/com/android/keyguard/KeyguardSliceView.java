@@ -100,6 +100,8 @@ public class KeyguardSliceView extends LinearLayout implements View.OnClickListe
     private Slice mSlice;
     private boolean mPulsing;
 
+    private KeyguardSliceButton mMediaButton;
+
     public KeyguardSliceView(Context context) {
         this(context, null, 0);
     }
@@ -201,6 +203,7 @@ public class KeyguardSliceView extends LinearLayout implements View.OnClickListe
         final int startIndex = mHasHeader ? 1 : 0; // First item is header; skip it
 	mRow.setVisibility(subItemsCount > 0 && mShowInfo ? VISIBLE : GONE);
         mRowAvailable = subItemsCount > 0;
+        mMediaButton = null;
         for (int i = startIndex; i < subItemsCount; i++) {
             SliceItem item = subItems.get(i);
             RowContent rc = new RowContent(getContext(), item, true /* showStartItem */);
@@ -213,6 +216,10 @@ public class KeyguardSliceView extends LinearLayout implements View.OnClickListe
                 button.setTag(itemTag);
                 final int viewIndex = i - (mHasHeader ? 1 : 0);
                 mRow.addView(button, viewIndex);
+            }
+
+            if (KeyguardSliceProvider.KEYGUARD_MEDIA_URI.equals(itemTag.toString())) {
+                mMediaButton = button;
             }
 
             PendingIntent pendingIntent = null;
@@ -421,6 +428,10 @@ public class KeyguardSliceView extends LinearLayout implements View.OnClickListe
     public void refresh() {
         Slice slice = SliceViewManager.getInstance(getContext()).bindSlice(mKeyguardSliceUri);
         onChanged(slice);
+    }
+
+    public KeyguardSliceButton getMediaButton() {
+        return mMediaButton;
     }
 
     public static class Row extends LinearLayout {
