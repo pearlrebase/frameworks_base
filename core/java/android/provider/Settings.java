@@ -4495,6 +4495,18 @@ public final class Settings {
         public static final String CENTER_TEXT_CLOCK = "center_text_clock";
 
         /**
+         * Center the lockscreen weather view
+         * @hide
+         */
+        public static final String CENTER_WEATHER_VIEW = "center_weather_view";
+
+        /**
+         * Center the lockscreen slice view
+         * @hide
+         */
+        public static final String CENTER_SLICE_VIEW = "center_slice_view";
+
+        /**
 	 * Wether to show network traffic indicator in statusbar
          * @hide
          */

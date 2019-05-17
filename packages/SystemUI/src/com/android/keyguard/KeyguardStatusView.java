@@ -107,6 +107,8 @@ public class KeyguardStatusView extends GridLayout implements
     private boolean mShowInfo;
     private int mClockSelection;
     private boolean mIsCenterAligned;
+    private boolean weatherIsCenterAligned;
+    private boolean sliceIsCenterAligned;
 
     private boolean mWasLatestViewSmall;
 
@@ -711,6 +713,7 @@ public class KeyguardStatusView extends GridLayout implements
 	if (lockClockFont == 35) {
             mClockView.setTypeface(Typeface.create("phantombold-sys", Typeface.NORMAL));
 	}
+	updateSettings();
     }
 
     private void refreshLockDateFont() {
@@ -825,6 +828,7 @@ public class KeyguardStatusView extends GridLayout implements
 	if (lockDateFont == 35) {
             mKeyguardSlice.setViewsTypeface(Typeface.create("phantombold-sys", Typeface.NORMAL));
         }
+	updateSettings();
     }
 
     public void refreshclocksize() {
@@ -1566,6 +1570,7 @@ public class KeyguardStatusView extends GridLayout implements
 
 	int leftPadding = (int) getResources().getDimension(R.dimen.custom_clock_left_padding);
         int topPadding = (int) getResources().getDimension(R.dimen.custom_clock_top_margin);
+        int leftSlicePadding = (int) getResources().getDimension(R.dimen.slice_left_padding);
 
         mShowClock = Settings.System.getIntForUser(resolver,
                 Settings.System.LOCKSCREEN_CLOCK, 1, UserHandle.USER_CURRENT) == 1;
@@ -1575,6 +1580,10 @@ public class KeyguardStatusView extends GridLayout implements
                 Settings.System.LOCKSCREEN_CLOCK_SELECTION, 0, UserHandle.USER_CURRENT);
         mIsCenterAligned = Settings.System.getIntForUser(resolver,
                 Settings.System.CENTER_TEXT_CLOCK, 0, UserHandle.USER_CURRENT) == 1;
+        weatherIsCenterAligned = Settings.System.getIntForUser(resolver,
+                Settings.System.CENTER_WEATHER_VIEW, 1, UserHandle.USER_CURRENT) == 1;
+        sliceIsCenterAligned = Settings.System.getIntForUser(resolver,
+                Settings.System.CENTER_SLICE_VIEW, 1, UserHandle.USER_CURRENT) == 1;
 
         if (mTextClock != null && mIsCenterAligned) {
 	    mTextClock.setGravity(Gravity.CENTER);
@@ -1583,6 +1592,20 @@ public class KeyguardStatusView extends GridLayout implements
 	} else {
 	    mTextClock.setPaddingRelative(leftPadding, topPadding, 0, 0);
 	}
+        if (mWeatherView != null && weatherIsCenterAligned) {
+            mWeatherView.setGravity(Gravity.CENTER);
+            mWeatherView.setLayoutParams(textClockParams);
+            mWeatherView.setPaddingRelative(0, 0, 0, 0);
+        } else {
+            mWeatherView.setPaddingRelative(leftSlicePadding, 0, 0, 0);
+        }
+        if (mKeyguardSlice != null && sliceIsCenterAligned) {
+            mKeyguardSlice.setGravity(Gravity.CENTER);
+            mKeyguardSlice.setLayoutParams(textClockParams);
+            mKeyguardSlice.setPaddingRelative(0, 0, 0, 0);
+        } else {
+            mKeyguardSlice.setPaddingRelative(leftSlicePadding, 0, 0, 0);
+        }
         setStyle();
     }
 
