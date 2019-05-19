@@ -107,6 +107,7 @@ public class KeyguardStatusView extends GridLayout implements
     private boolean mShowInfo;
     private int mClockSelection;
     private boolean mIsCenterAligned;
+    private boolean mIsLeftAligned;
 
     private boolean mWasLatestViewSmall;
 
@@ -825,6 +826,7 @@ public class KeyguardStatusView extends GridLayout implements
 	if (lockDateFont == 35) {
             mKeyguardSlice.setViewsTypeface(Typeface.create("phantombold-sys", Typeface.NORMAL));
         }
+	updateSettings();
     }
 
     public void refreshclocksize() {
@@ -1010,6 +1012,7 @@ public class KeyguardStatusView extends GridLayout implements
         mClockView.setTextSize(TypedValue.COMPLEX_UNIT_PX,
                 getResources().getDimensionPixelSize(R.dimen.lock_clock_font_size_108));
          }
+	updateSettings();
     }
 
     public void refreshdatesize() {
@@ -1566,6 +1569,7 @@ public class KeyguardStatusView extends GridLayout implements
 
 	int leftPadding = (int) getResources().getDimension(R.dimen.custom_clock_left_padding);
         int topPadding = (int) getResources().getDimension(R.dimen.custom_clock_top_margin);
+        RelativeLayout.LayoutParams lp = (RelativeLayout.LayoutParams) mWeatherView.getLayoutParams();
 
         mShowClock = Settings.System.getIntForUser(resolver,
                 Settings.System.LOCKSCREEN_CLOCK, 1, UserHandle.USER_CURRENT) == 1;
@@ -1575,14 +1579,25 @@ public class KeyguardStatusView extends GridLayout implements
                 Settings.System.LOCKSCREEN_CLOCK_SELECTION, 0, UserHandle.USER_CURRENT);
         mIsCenterAligned = Settings.System.getIntForUser(resolver,
                 Settings.System.CENTER_TEXT_CLOCK, 0, UserHandle.USER_CURRENT) == 1;
+        mIsLeftAligned = Settings.System.getIntForUser(resolver,
+                Settings.System.LEFT_ALIGN_VIEW, 0, UserHandle.USER_CURRENT) == 1;
 
         if (mTextClock != null && mIsCenterAligned) {
 	    mTextClock.setGravity(Gravity.CENTER);
 	    mTextClock.setLayoutParams(textClockParams);
 	    mTextClock.setPaddingRelative(0, topPadding, 0, 0);
 	} else {
+	    mTextClock.setGravity(Gravity.START);
 	    mTextClock.setPaddingRelative(leftPadding, topPadding, 0, 0);
 	}
+
+        if (mWeatherView != null && mKeyguardSlice != null && mIsLeftAligned) {
+            lp.removeRule(RelativeLayout.CENTER_HORIZONTAL);
+            lp.removeRule(RelativeLayout.ALIGN_PARENT_END);
+	    mWeatherView.setGravity(Gravity.START, leftPadding);
+            mWeatherView.setLayoutParams(lp);
+            mKeyguardSlice.setRowGravity(Gravity.START, leftPadding);
+        }
         setStyle();
     }
 
