@@ -41,6 +41,7 @@ import android.net.ConnectivityManager;
 import android.os.Build;
 import android.os.Handler;
 import android.os.Message;
+import android.os.PowerManager;
 import android.os.RemoteException;
 import android.os.ServiceManager;
 import android.os.SystemProperties;
@@ -126,6 +127,7 @@ class GlobalActionsDialog implements DialogInterface.OnDismissListener,
     private static final String GLOBAL_ACTION_KEY_LOGOUT = "logout";
     private static final String GLOBAL_ACTION_KEY_EMERGENCY = "emergency";
     private static final String GLOBAL_ACTION_KEY_SCREENSHOT = "screenshot";
+    private static final String GLOBAL_ACTION_KEY_RESTART_RECOVERY = "recovery";
 
     private final Context mContext;
     private final GlobalActionsManager mWindowManagerFuncs;
@@ -365,6 +367,8 @@ class GlobalActionsDialog implements DialogInterface.OnDismissListener,
                     mItems.add(new LogoutAction());
                     mHasLogoutButton = true;
                 }
+            } else if (GLOBAL_ACTION_KEY_RESTART_RECOVERY.equals(actionKey)) {
+                mItems.add(new AdvancedRestartAction());
             } else if (GLOBAL_ACTION_KEY_EMERGENCY.equals(actionKey)) {
                 if (mSeparatedEmergencyButtonEnabled
                         && !mEmergencyAffordanceManager.needsEmergencyAffordance()) {
@@ -536,6 +540,33 @@ class GlobalActionsDialog implements DialogInterface.OnDismissListener,
         @Override
         public boolean showBeforeProvisioning() {
             return false;
+        }
+    }
+
+    private final class AdvancedRestartAction extends SinglePressAction implements LongPressAction {
+        private AdvancedRestartAction() {
+            super(com.android.systemui.R.drawable.ic_restart_advanced, com.android.systemui.R.string.global_action_restart_advanced);
+        }
+
+        @Override
+        public boolean onLongPress() {
+            mWindowManagerFuncs.advancedReboot(PowerManager.REBOOT_BOOTLOADER);
+            return true;
+        }
+
+        @Override
+        public boolean showDuringKeyguard() {
+            return true;
+        }
+
+        @Override
+        public boolean showBeforeProvisioning() {
+            return true;
+        }
+
+        @Override
+        public void onPress() {
+            mWindowManagerFuncs.advancedReboot(PowerManager.REBOOT_RECOVERY);
         }
     }
 
@@ -936,8 +967,8 @@ class GlobalActionsDialog implements DialogInterface.OnDismissListener,
         public View getView(int position, View convertView, ViewGroup parent) {
             Action action = getItem(position);
             View view = action.create(mContext, convertView, parent, LayoutInflater.from(mContext));
-            // Everything but screenshot, the last item, gets white background.
-            if (position == getCount() - 1) {
+            // Everything
+            if (position == getCount()) {
                 HardwareUiLayout.get(parent).setDivisionView(view);
             }
             return view;
