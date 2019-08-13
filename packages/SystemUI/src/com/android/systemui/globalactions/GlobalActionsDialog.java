@@ -147,11 +147,11 @@ class GlobalActionsDialog implements DialogInterface.OnDismissListener,
     private boolean mDeviceProvisioned = false;
     private ToggleAction.State mAirplaneState = ToggleAction.State.Off;
     private boolean mIsWaitingForEcmExit = false;
+    private boolean mHasFasterEmergencyButton;
     private boolean mHasTelephony;
     private boolean mHasVibrator;
     private boolean mHasLogoutButton;
     private boolean mHasLockdownButton;
-    private boolean mSeparatedEmergencyButtonEnabled;
     private final boolean mShowSilentToggle;
     private final EmergencyAffordanceManager mEmergencyAffordanceManager;
     private final ScreenshotHelper mScreenshotHelper;
@@ -316,7 +316,11 @@ class GlobalActionsDialog implements DialogInterface.OnDismissListener,
         ArraySet<String> addedKeys = new ArraySet<String>();
         mHasLogoutButton = false;
         mHasLockdownButton = false;
+<<<<<<< HEAD
         mSeparatedEmergencyButtonEnabled = false;
+=======
+        mHasFasterEmergencyButton = false;
+>>>>>>> parent of 71db1f7... Separated emergency option final UI
         for (int i = 0; i < defaultActions.length; i++) {
             String actionKey = defaultActions[i];
             if (addedKeys.contains(actionKey)) {
@@ -355,6 +359,13 @@ class GlobalActionsDialog implements DialogInterface.OnDismissListener,
                 mItems.add(getAssistAction());
             } else if (GLOBAL_ACTION_KEY_RESTART.equals(actionKey)) {
                 mItems.add(new RestartAction());
+            } else if (GLOBAL_ACTION_KEY_EMERGENCY.equals(actionKey)) {
+                if (Settings.Global.getInt(mContext.getContentResolver(),
+                        Settings.Global.FASTER_EMERGENCY_PHONE_CALL_ENABLED, 0) != 0
+                        && !mEmergencyAffordanceManager.needsEmergencyAffordance()) {
+                    mItems.add(new EmergencyAction());
+                    mHasFasterEmergencyButton = true;
+                }
             } else if (GLOBAL_ACTION_KEY_SCREENSHOT.equals(actionKey)) {
                 mItems.add(new ScreenshotAction());
             } else if (GLOBAL_ACTION_KEY_LOGOUT.equals(actionKey)) {
@@ -362,11 +373,6 @@ class GlobalActionsDialog implements DialogInterface.OnDismissListener,
                         && getCurrentUser().id != UserHandle.USER_SYSTEM) {
                     mItems.add(new LogoutAction());
                     mHasLogoutButton = true;
-                }
-            } else if (GLOBAL_ACTION_KEY_EMERGENCY.equals(actionKey)) {
-                if (mSeparatedEmergencyButtonEnabled
-                        && !mEmergencyAffordanceManager.needsEmergencyAffordance()) {
-                    mItems.add(new EmergencyDialerAction());
                 }
             } else {
                 Log.e(TAG, "Invalid global action key " + actionKey);
@@ -391,7 +397,7 @@ class GlobalActionsDialog implements DialogInterface.OnDismissListener,
             return false;
         };
         ActionsDialog dialog = new ActionsDialog(mContext, this, mAdapter, onItemLongClickListener,
-                mSeparatedEmergencyButtonEnabled);
+                mHasFasterEmergencyButton);
         dialog.setCanceledOnTouchOutside(false); // Handled by the custom class.
         dialog.setKeyguardShowing(mKeyguardShowing);
 
@@ -447,9 +453,18 @@ class GlobalActionsDialog implements DialogInterface.OnDismissListener,
         }
     }
 
+<<<<<<< HEAD
     private class EmergencyDialerAction extends SinglePressAction {
         private EmergencyDialerAction() {
             super(R.drawable.ic_faster_emergency,
+=======
+    private class EmergencyAction extends SinglePressAction {
+        private static final String ACTION_EMERGENCY_DIALER_DIAL =
+                "com.android.phone.EmergencyDialer.DIAL";
+
+        private EmergencyAction() {
+            super(com.android.systemui.R.drawable.faster_emergency_icon,
+>>>>>>> parent of 71db1f7... Separated emergency option final UI
                     R.string.global_action_emergency);
         }
 
@@ -659,12 +674,6 @@ class GlobalActionsDialog implements DialogInterface.OnDismissListener,
     }
 
     private Action getEmergencyAction() {
-        Drawable emergencyIcon = mContext.getDrawable(R.drawable.emergency_icon);
-        if(!mSeparatedEmergencyButtonEnabled) {
-            // use un-colored legacy treatment
-            emergencyIcon.setTintList(null);
-        }
-
         return new SinglePressAction(R.drawable.emergency_icon,
                 R.string.global_action_emergency) {
             @Override
