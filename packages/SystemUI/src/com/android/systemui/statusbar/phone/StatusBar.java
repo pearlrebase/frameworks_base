@@ -4139,7 +4139,7 @@ public class StatusBar extends SystemUI implements DemoMode,
      * Switches theme from light to dark and vice-versa.
      */
     protected void updateTheme() {
-        final boolean inflated = mStackScroller != null;
+        final boolean inflated = mStackScroller != null && mStatusBarWindowManager != null;
         boolean useBlackTheme = false;
         boolean useDarkTheme = false;
         if (mCurrentTheme == 0) {
