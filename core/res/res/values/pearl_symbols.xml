@@ -119,4 +119,7 @@
          as a camera launch. To avoid false triggers.
   -->
   <java-symbol type="integer" name="config_cameraPowerDoubleTapMinTime" />
+
+  <!-- Whether to allow process with media UID to access CameraServiceProxy -->
+  <java-symbol type="bool" name="config_allowMediaUidForCameraServiceProxy" />
 </resources>

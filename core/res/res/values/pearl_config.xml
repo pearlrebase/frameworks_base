@@ -124,4 +124,7 @@
          as a camera launch. To avoid false triggers.
     -->
     <integer name="config_cameraPowerDoubleTapMinTime">0</integer>
+
+    <!-- Whether to allow process with media UID to access CameraServiceProxy -->
+    <bool name="config_allowMediaUidForCameraServiceProxy">false</bool>
 </resources>
