@@ -4164,10 +4164,10 @@ public class StatusBar extends SystemUI implements DemoMode, TunerService.Tunabl
     }
 
     private boolean themeNeedsRefresh(){
-        if (mContext.getSharedPreferences("systemui_theming", 0).getString("build_fingerprint", "").equals(Build.CUSTOM_FINGERPRINT)){
+        if (mContext.getSharedPreferences("systemui_theming", 0).getString("build_fingerprint", "").equals(Build.PEARL_FINGERPRINT)){
             return false;
         }
-        mContext.getSharedPreferences("systemui_theming", 0).edit().putString("build_fingerprint", Build.CUSTOM_FINGERPRINT).commit();
+        mContext.getSharedPreferences("systemui_theming", 0).edit().putString("build_fingerprint", Build.PEARL_FINGERPRINT).commit();
         return true;
     }
 
