@@ -1779,7 +1779,6 @@ class GlobalActionsDialog implements DialogInterface.OnDismissListener,
                 ViewGroup parentView = mShouldDisplaySeparatedButton && i == mAdapter.getCount() - 1
                         ? mSeparatedView : mListView;
                 View v = mAdapter.getView(i, null, parentView);
-                View v = mAdapter.getView(i, null, mListView, noDivider);
                 final int pos = i;
                 v.setOnClickListener(view -> mClickListener.onClick(this, pos));
                 v.setOnLongClickListener(view ->
