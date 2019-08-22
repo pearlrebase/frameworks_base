@@ -6507,7 +6507,7 @@ message MetricsEvent {
 
     //PEARL CONSTANT
     PEARL = 1555;
-    SHELL = 1556;
+    SHELLEXTRAS = 1556;
 
   }
 }
