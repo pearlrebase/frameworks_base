@@ -21,7 +21,7 @@ import android.os.UserHandle;
 import android.provider.Settings;
 import android.service.quicksettings.Tile;
 
-import com.android.internal.util.evolution.EvolutionUtils;
+import com.android.internal.util.pearl.PearlUtils;
 import com.android.internal.logging.nano.MetricsProto.MetricsEvent;
 import com.android.systemui.qs.QSHost;
 import com.android.systemui.plugins.qs.QSTile.BooleanState;
@@ -69,7 +69,7 @@ public class ScreenshotTile extends QSTileImpl<BooleanState> {
         try {
              Thread.sleep(1000); //1s
         } catch (InterruptedException ie) {}
-        EvolutionUtils.takeScreenshot(mRegion ? false : true);
+        PearlUtils.takeScreenshot(mRegion ? false : true);
     }
 
     @Override
